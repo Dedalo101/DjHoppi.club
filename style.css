@@ -46,4 +46,53 @@ footer {
   text-align: center;
   padding: 1rem;
   background: rgba(34, 49, 34, 0.95);
+  position: relative;
+}
+
+#hop-disclaimer-trigger {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#hop-disclaimer-trigger:hover svg {
+  transform: scale(1.15) rotate(-8deg);
+  filter: drop-shadow(0 0 6px #b2ff59cc);
+}
+
+#hop-disclaimer-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#hop-disclaimer-modal.hidden {
+  display: none;
+}
+#hop-disclaimer-modal .modal-content {
+  background: #222;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  box-shadow: 0 4px 32px #000a;
+  position: relative;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+#hop-disclaimer-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: #b2ff59;
+  cursor: pointer;
+  font-weight: bold;
 }
