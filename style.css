@@ -23,7 +23,7 @@ main {
   height: 400px;
   margin-bottom: 2rem;
 }
-#hopsCanvas, #bubblesCanvas {
+#plantCanvas, #hopsCanvas, #bubblesCanvas {
   position: absolute;
   left: 0;
   top: 0;
