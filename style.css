@@ -24,6 +24,19 @@ main {
   margin-bottom: 2rem;
 }
 
+#ads {
+  background: rgba(0,0,0,0.7);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1.5rem auto 0 auto;
+  max-width: 500px;
+}
+.ads-placeholder {
+  color: #b2ff59;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
 @media (max-width: 600px) {
   main {
     padding: 0.5rem;
@@ -43,8 +56,13 @@ main {
     font-size: 1.5rem;
   }
   #ads {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+    margin: 0.5rem auto 0 auto;
+    max-width: 95vw;
+  }
+  .ads-placeholder {
     font-size: 0.95rem;
-    padding: 0.5rem;
   }
 }
 #plantCanvas, #hopsCanvas, #bubblesCanvas {
