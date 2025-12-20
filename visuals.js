@@ -88,6 +88,8 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
     mouseX = (e.clientX - rect.left) * (plantCanvas.width / rect.width);
   });
 
+  // Responsive: adjust plant size for mobile
+  let isMobile = window.innerWidth <= 600;
   let plant = {
     stems: [
       {
@@ -95,8 +97,8 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
         y: plantCanvas.height,
         angle: -Math.PI / 2,
         length: 0,
-        maxLength: 160 + Math.random() * 60,
-        thickness: 7,
+        maxLength: isMobile ? 80 + Math.random() * 30 : 160 + Math.random() * 60,
+        thickness: isMobile ? 4 : 7,
         grown: false,
         children: [],
         parent: null

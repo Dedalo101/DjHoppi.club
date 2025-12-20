@@ -23,6 +23,30 @@ main {
   height: 400px;
   margin-bottom: 2rem;
 }
+
+@media (max-width: 600px) {
+  main {
+    padding: 0.5rem;
+  }
+  #visuals {
+    height: 220px;
+    min-height: 180px;
+    max-height: 60vw;
+  }
+  #plantCanvas, #hopsCanvas, #bubblesCanvas {
+    width: 100vw !important;
+    height: 60vw !important;
+    max-width: 100vw;
+    max-height: 60vw;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  #ads {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+}
 #plantCanvas, #hopsCanvas, #bubblesCanvas {
   position: absolute;
   left: 0;
