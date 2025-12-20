@@ -13,11 +13,11 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
   const hopsCtx = hopsCanvas.getContext('2d');
   const bubblesCtx = bubblesCanvas.getContext('2d');
 
-  // Bubble parameters
+  // Bubble parameters: always start from the bottom
   const bubbleCount = 20;
   const bubbles = Array.from({ length: bubbleCount }, (_, i) => ({
     x: Math.random() * bubblesCanvas.width,
-    y: bubblesCanvas.height - Math.random() * bubblesCanvas.height,
+    y: bubblesCanvas.height + Math.random() * 40, // always start at or just below bottom
     r: 10 + Math.random() * 20,
     speed: 0.3 + Math.random() * 0.3, // slower speed
     phase: Math.random() * Math.PI * 2,
@@ -82,7 +82,8 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
 
   // --- Hop Plant Growth ---
 
-  // Multi-plant state
+
+  // --- Multi-plant State ---
   let mouseX = plantCanvas.width / 2;
   plantCanvas.addEventListener('mousemove', e => {
     const rect = plantCanvas.getBoundingClientRect();
@@ -90,65 +91,51 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
   });
 
   let isMobile = window.innerWidth <= 600;
-  const PLANT_MIN = 4;
-  const PLANT_MAX = 5;
+  const PLANT_COUNT = isMobile ? 3 : 5;
   let plants = [];
-
-  function createPlant() {
-    // Clamp X to visible bounds
-    let minX = 32;
-    let maxX = plantCanvas.width - 32;
-    let x = plantCanvas.width / 2 + (Math.random() - 0.5) * (isMobile ? 60 : 120);
-    x = Math.max(minX, Math.min(maxX, x));
-    return {
-      stems: [
-        {
-          x: x,
-          y: plantCanvas.height,
-          angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.18,
-          length: 0,
-          maxLength: isMobile ? 40 + Math.random() * 15 : 70 + Math.random() * 25,
-          thickness: isMobile ? 3 : 5,
-          grown: false,
-          children: [],
-          parent: null
-        }
-      ],
-      fade: 0, // 0 = visible, 1 = fully faded
-      finished: false, // true when all tips have flowered
-      age: 0 // for fade timing
-    };
-  }
-
-  // Initialize plants
-  function ensurePlants() {
-    while (plants.length < PLANT_MIN) {
-      plants.push(createPlant());
-    }
-    if (plants.length > PLANT_MAX) {
-      plants = plants.slice(0, PLANT_MAX);
+  function resetPlants() {
+    plants = [];
+    for (let i = 0; i < PLANT_COUNT; i++) {
+      let x = plantCanvas.width * (0.15 + 0.7 * i / (PLANT_COUNT - 1));
+      plants.push({
+        stems: [
+          {
+            x: x,
+            y: plantCanvas.height - 2,
+            angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.18,
+            length: 0,
+            maxLength: isMobile ? 90 + Math.random() * 30 : 160 + Math.random() * 40,
+            thickness: isMobile ? 2.5 : 4.5,
+            grown: false,
+            children: [],
+            parent: null
+          }
+        ],
+        finished: false
+      });
     }
   }
-  ensurePlants();
+  resetPlants();
+
 
 
   function growStem(stem, depth = 0) {
-    // Shorter, more consistent growth
-    const growthSpeed = 0.8 + Math.random() * 0.2;
-    if (depth === 0) {
-      // Main stem follows mouse
-      stem.x += (mouseX - stem.x) * 0.08;
+    // Smooth, slower growth for natural look
+    const growthSpeed = (isMobile ? 0.7 : 1.1) * (0.7 + Math.random() * 0.2);
+    if (depth === 0 && PLANT_COUNT === 1) {
+      // Only center plant follows mouse if single plant
+      stem.x += (mouseX - stem.x) * 0.04;
     }
     if (stem.length < stem.maxLength) {
       stem.length += growthSpeed;
-    } else if (!stem.grown && depth < (isMobile ? 3 : 4)) {
-      // More branches, shorter
-      let branches = (depth === 0) ? (isMobile ? 4 : 6) : (isMobile ? 2 : 3);
+    } else if (!stem.grown && depth < (isMobile ? 2 : 3)) {
+      // More branches, shorter, but only after main stem is fully grown
+      let branches = (depth === 0) ? (isMobile ? 3 : 5) : (isMobile ? 2 : 3);
       for (let i = 0; i < branches; i++) {
-        let spread = (Math.PI / 2.2) * (i / (branches - 1) - 0.5);
-        let angle = stem.angle + spread + (Math.random() - 0.5) * 0.18;
-        let maxLength = (isMobile ? 28 : 40) + Math.random() * (isMobile ? 10 : 18) * (1 - depth * 0.18);
-        let thickness = Math.max(1.5, stem.thickness * (0.6 + Math.random() * 0.2));
+        let spread = (Math.PI / 1.7) * (i / (branches - 1) - 0.5);
+        let angle = stem.angle + spread + (Math.random() - 0.5) * 0.12;
+        let maxLength = (isMobile ? 38 : 60) + Math.random() * (isMobile ? 10 : 18) * (1 - depth * 0.18);
+        let thickness = Math.max(1.2, stem.thickness * (0.6 + Math.random() * 0.2));
         let child = {
           x: stem.x + Math.cos(stem.angle) * stem.maxLength,
           y: stem.y + Math.sin(stem.angle) * stem.maxLength,
@@ -166,6 +153,7 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
     }
     for (let child of stem.children) growStem(child, depth + 1);
   }
+
 
   // Recursively check if all tips have flowered (i.e., all leaves are at max length and have no children)
   function allTipsFlowered(stem) {
@@ -191,9 +179,10 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
     ctx.restore();
     // Draw children
     if (stem.children.length === 0 && stem.length >= stem.maxLength && depth > 0) {
-      // Clamp flower position to stay within canvas
-      let flowerX = Math.max(16, Math.min(endX, plantCanvas.width - 16));
-      let flowerY = Math.max(16, Math.min(endY, plantCanvas.height - 16));
+      // Clamp flower position to always be on frame (mobile and desktop)
+      let margin = isMobile ? 10 : 16;
+      let flowerX = Math.max(margin, Math.min(endX, plantCanvas.width - margin));
+      let flowerY = Math.max(margin, Math.min(endY, plantCanvas.height - margin));
       drawHangingHopFlower(ctx, flowerX, flowerY, stem.angle, isMobile ? 0.7 : 1.0, time / 1000);
       // Draw a small circle at the tip for extra visibility
       ctx.save();
@@ -210,8 +199,9 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
   }
 
 
+
   function drawPlant(ctx, plant, time) {
-    for (let stem of plant.stems) drawStem(ctx, stem, 0, time, plant.fade);
+    for (let stem of plant.stems) drawStem(ctx, stem, 0, time, 0);
   }
 
 
@@ -223,84 +213,53 @@ if (plantCanvas && hopsCanvas && bubblesCanvas) {
     ctx.scale(scale, scale);
     // Animate color
     const hue = (Date.now() / 40 + x + y) % 360;
-    // Draw 3-4 layered scales
-    for (let layer = 0; layer < 4; layer++) {
+    // Draw 4-5 layered scales, favicon-inspired
+    for (let layer = 0; layer < 5; layer++) {
       ctx.beginPath();
-      let yOffset = 8 * layer;
-      let width = 18 - layer * 3;
-      let height = 12 - layer * 2;
+      let yOffset = 7 * layer;
+      let width = 14 - layer * 2.2;
+      let height = 10 - layer * 1.5;
       ctx.ellipse(0, yOffset, width, height, 0, 0, Math.PI * 2);
       ctx.closePath();
-      ctx.globalAlpha = 0.7 - layer * 0.13;
-      ctx.fillStyle = `hsl(${hue + layer * 10}, 70%, ${70 - layer * 8}%)`;
-      ctx.shadowColor = `hsl(${hue + layer * 10}, 60%, 40%)`;
-      ctx.shadowBlur = 8 - layer * 2;
+      ctx.globalAlpha = 0.7 - layer * 0.11;
+      ctx.fillStyle = `hsl(${hue + layer * 8}, 80%, ${68 - layer * 7}%)`;
+      ctx.shadowColor = `hsl(${hue + layer * 8}, 60%, 40%)`;
+      ctx.shadowBlur = 7 - layer * 1.5;
       ctx.fill();
     }
     // Draw stem
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
     ctx.strokeStyle = `hsl(${hue}, 60%, 40%)`;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2.2;
     ctx.beginPath();
-    ctx.moveTo(0, -8);
+    ctx.moveTo(0, -7);
     ctx.lineTo(0, 0);
     ctx.stroke();
     ctx.restore();
   }
 
+
   function animate(time) {
     // Plant layer
-    // Debug: fill background to see canvas
-    plantCtx.save();
-    plantCtx.globalAlpha = 0.12;
-    plantCtx.fillStyle = '#00f';
-    plantCtx.fillRect(0, 0, plantCanvas.width, plantCanvas.height);
-    plantCtx.restore();
-    plantCtx.globalAlpha = 1;
-
-    ensurePlants();
-    let anyVisible = false;
+    plantCtx.clearRect(0, 0, plantCanvas.width, plantCanvas.height);
+    let allFinished = true;
     for (let plant of plants) {
       if (!plant.finished) {
         growStem(plant.stems[0]);
+        drawPlant(plantCtx, plant, time);
         if (allTipsFlowered(plant.stems[0])) {
           plant.finished = true;
+        } else {
+          allFinished = false;
         }
       } else {
-        plant.age += 1;
-        plant.fade = Math.min(1, plant.age / 60); // fade out over 1s
-      }
-      if (plant.fade < 1) anyVisible = true;
-      drawPlant(plantCtx, plant, time);
-    }
-    // Remove fully faded plants and add new ones
-    for (let i = plants.length - 1; i >= 0; i--) {
-      if (plants[i].fade >= 1) {
-        plants.splice(i, 1);
+        drawPlant(plantCtx, plant, time);
       }
     }
-    ensurePlants();
-
-    // If no plants are visible, draw a fallback test plant
-    if (!anyVisible) {
-      let testPlant = {
-        stems: [{
-          x: plantCanvas.width / 2,
-          y: plantCanvas.height,
-          angle: -Math.PI / 2,
-          length: 60,
-          maxLength: 60,
-          thickness: 5,
-          grown: true,
-          children: [],
-          parent: null
-        }],
-        fade: 0,
-        finished: true,
-        age: 0
-      };
-      drawPlant(plantCtx, testPlant, time);
+    if (allFinished) {
+      setTimeout(resetPlants, 1200);
+      for (let plant of plants) plant.finished = false;
     }
 
     // Hops layer: draw hops at the same positions as bubbles
