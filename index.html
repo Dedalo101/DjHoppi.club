@@ -1,78 +1,1101 @@
-  <!-- cSpell:ignore González presente permiso alguno cualquier obtenga copia archivos documentación asociados utilizar restricción alguna incluyendo limitación derechos copia modificación fusión publicación distribución sublicencia venta copias permitir quienes proporcione hacer mismo sujeto siguientes condiciones deberán incluirse todas copias porciones sustanciales PROPORCIONA CUAL GARANTÍA NINGÚN TIPO EXPRESA IMPLÍCITA INCLUYENDO LIMITACIÓN GARANTÍAS COMERCIALIZACIÓN IDONEIDAD INFRACCIÓN NINGÚN CASO AUTORES TITULARES SERÁN RESPONSABLES RECLAMACIÓN ALGUNA DAÑOS OTRAS RESPONSABILIDADES ACCIÓN EXTRACONTRACTUAL OTRO TIPO DERIVADAS RELACIÓN OTROS TRATOS ENTREGA CUAL REGALO SORPRESA GARANTÍAS NINGUNA explota ordenador borra fotos vacaciones invoca demonios ancestrales convierte rana pues enhorabuena PROBLEMA -->
-  <!-- Disclaimer translation: The following Spanish text is a legal disclaimer and license, followed by its English translation. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DjHoppi</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DjHoppi.club — BrewBeats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0b07;
+    --deep: #0f1209;
+    --bark: #1a1d10;
+    --moss: #2a3018;
+    --leaf: #3d5c1a;
+    --lime: #7cb518;
+    --acid: #b8e04a;
+    --foam: #e8f5c8;
+    --amber: #d4a017;
+    --copper: #8b4513;
+    --cream: #f0ead2;
+    --mist: rgba(184,224,74,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--acid);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.15s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--acid);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+
+  /* Canvas background */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1; opacity: 0.6;
+  }
+
+  /* Layout */
+  .site-wrap { position: relative; z-index: 2; }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(184,224,74,0.12);
+    background: rgba(10,11,7,0.7);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.06em;
+    color: var(--acid);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .logo span { color: var(--cream); opacity: 0.5; }
+
+  nav { display: flex; gap: 2rem; align-items: center; }
+  nav a {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.6;
+    text-decoration: none;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  nav a:hover { opacity: 1; color: var(--acid); }
+
+  .nav-cta {
+    border: 1px solid var(--acid);
+    color: var(--acid) !important;
+    opacity: 1 !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 2px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--acid); color: var(--black) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-end;
+    padding: 2.5rem 2.5rem 5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--acid);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 13vw, 11rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title .accent { color: var(--acid); }
+  .hero-title .dim { opacity: 0.25; }
+
+  .hero-sub {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--cream);
+    opacity: 0.55;
+    max-width: 36ch;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+  }
+
+  .hero-links {
+    display: flex; gap: 1.25rem; flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-primary {
+    background: var(--acid);
+    color: var(--black);
+    border: 1px solid var(--acid);
+  }
+  .btn-primary:hover { background: transparent; color: var(--acid); }
+  .btn-ghost {
+    border: 1px solid rgba(240,234,210,0.25);
+    color: var(--cream);
+  }
+  .btn-ghost:hover { border-color: var(--acid); color: var(--acid); }
+
+  .btn svg { width: 16px; height: 16px; }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; }
+
+  .section-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(184,224,74,0.1);
+    margin: 0;
+  }
+
+  /* ── MARQUEE BAND ── */
+  .marquee-band {
+    overflow: hidden;
+    background: var(--lime);
+    padding: 0.65rem 0;
+    display: flex;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    color: var(--black);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; gap: 2.5rem;
+  }
+  .marquee-item::after {
+    content: '✦';
+    font-size: 0.6rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 6rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-left { }
+
+  .about-body {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: var(--cream);
+    opacity: 0.7;
+    margin-top: 1rem;
+  }
+
+  .about-stats {
+    display: flex; flex-direction: column; gap: 0;
+    margin-top: 2.5rem;
+  }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(184,224,74,0.1);
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream); opacity: 0.4;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--acid);
+    line-height: 1;
+  }
+
+  .about-right {
+    display: flex; flex-direction: column; gap: 1.5rem;
+    padding-top: 3.5rem;
+  }
+
+  .feature-card {
+    border: 1px solid rgba(184,224,74,0.15);
+    padding: 1.5rem;
+    border-radius: 2px;
+    background: rgba(42,48,24,0.3);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .feature-card:hover {
+    border-color: rgba(184,224,74,0.4);
+    background: rgba(42,48,24,0.6);
+  }
+  .feature-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .feature-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+  .feature-desc {
+    font-size: 0.75rem;
+    line-height: 1.65;
+    color: var(--cream); opacity: 0.45;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── MIXES ── */
+  .mixes {
+    padding: 6rem 2.5rem;
+    background: linear-gradient(to bottom, transparent, rgba(15,18,9,0.9), transparent);
+  }
+
+  .mixes-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  .mix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .mix-card {
+    border: 1px solid rgba(184,224,74,0.12);
+    background: rgba(26,29,16,0.7);
+    border-radius: 2px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s, border-color 0.3s;
+    display: block;
+  }
+  .mix-card:hover { transform: translateY(-4px); border-color: rgba(184,224,74,0.4); }
+
+  .mix-art {
+    height: 160px;
+    background: var(--moss);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .mix-waveform {
+    display: flex; align-items: center; gap: 2px;
+    height: 60px;
+  }
+  .mix-waveform span {
+    display: block;
+    width: 3px;
+    background: var(--acid);
+    opacity: 0.4;
+    border-radius: 1px;
+    animation: wave-idle 1.8s ease-in-out infinite;
+  }
+  .mix-card:hover .mix-waveform span { opacity: 0.85; animation: wave-play 0.6s ease-in-out infinite; }
+  @keyframes wave-idle {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.4); }
+  }
+  @keyframes wave-play {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.2); }
+  }
+
+  .mix-genre-tag {
+    position: absolute; top: 0.75rem; left: 0.75rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--acid);
+    color: var(--black);
+    padding: 0.25rem 0.55rem;
+    border-radius: 1px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .mix-duration {
+    position: absolute; top: 0.75rem; right: 0.75rem;
+    font-size: 0.62rem;
+    color: var(--cream); opacity: 0.5;
+  }
+
+  .mix-info {
+    padding: 1rem 1.1rem;
+  }
+  .mix-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+  .mix-meta {
+    font-size: 0.62rem;
+    color: var(--acid); opacity: 0.7;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── BREWERIES ── */
+  .breweries {
+    padding: 6rem 2.5rem;
+  }
+
+  .brew-intro {
+    max-width: 55ch;
+    margin-bottom: 4rem;
+  }
+
+  .brew-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    border: 1px solid rgba(184,224,74,0.1);
+  }
+
+  .brew-card {
+    background: rgba(26,29,16,0.5);
+    padding: 2rem;
+    transition: background 0.3s;
+    border: none;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .brew-card:hover { background: rgba(42,48,24,0.9); }
+
+  .brew-logo {
+    width: 48px; height: 48px;
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .brew-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+  .brew-location {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--acid); opacity: 0.7;
+    margin-bottom: 0.9rem;
+  }
+  .brew-desc {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--cream); opacity: 0.45;
+  }
+
+  .brew-ad-slot {
+    border: 1px dashed rgba(184,224,74,0.2);
+    padding: 2rem;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    gap: 0.75rem;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .brew-ad-slot:hover {
+    border-color: rgba(184,224,74,0.5);
+    background: rgba(42,48,24,0.3);
+  }
+  .brew-ad-slot .slot-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--acid); opacity: 0.4;
+  }
+  .brew-ad-slot .slot-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--cream); opacity: 0.2;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── VISUAL SPECTRUM (canvas section) ── */
+  .spectrum {
+    padding: 5rem 2.5rem;
+    text-align: center;
+    position: relative;
+  }
+  #viz-canvas {
+    width: 100%;
+    height: 220px;
+    display: block;
+    margin: 2rem 0;
+    border-radius: 2px;
+    border: 1px solid rgba(184,224,74,0.08);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 2.5rem 2.5rem;
+    border-top: 1px solid rgba(184,224,74,0.1);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-brand .logo { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+  .footer-tagline {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--cream); opacity: 0.4;
+    max-width: 32ch;
+    line-height: 1.6;
+  }
+
+  .footer-col-title {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--acid); opacity: 0.7;
+    margin-bottom: 1.25rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--cream); opacity: 0.5;
+    text-decoration: none;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .footer-links a:hover { opacity: 1; color: var(--acid); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(184,224,74,0.07);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--cream); opacity: 0.25;
+  }
+  .footer-legal-btn {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--acid); opacity: 0.35;
+    background: none; border: none;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    transition: opacity 0.2s;
+  }
+  .footer-legal-btn:hover { opacity: 0.8; }
+
+  /* ── MODAL ── */
+  .modal-bg {
+    display: none;
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(10,11,7,0.85);
+    backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--bark);
+    border: 1px solid rgba(184,224,74,0.2);
+    border-radius: 2px;
+    padding: 2.5rem;
+    max-width: 560px;
+    width: 90%;
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.06em;
+    color: var(--acid);
+    margin-bottom: 1.25rem;
+  }
+  .modal p {
+    font-size: 0.75rem;
+    line-height: 1.8;
+    color: var(--cream); opacity: 0.5;
+    margin-bottom: 0.75rem;
+  }
+  .modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: none; border: none;
+    color: var(--cream); opacity: 0.4;
+    cursor: pointer; font-size: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    transition: opacity 0.2s;
+  }
+  .modal-close:hover { opacity: 1; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 1rem 1.25rem; }
+    .logo { font-size: 1.5rem; }
+    nav { gap: 1rem; }
+    nav a:not(.nav-cta) { display: none; }
+    .hero { padding: 1.5rem 1.25rem 4rem; }
+    .about { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.25rem; }
+    .about-right { padding-top: 0; }
+    .mixes { padding: 4rem 1.25rem; }
+    .mixes-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .breweries { padding: 4rem 1.25rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { padding: 3rem 1.25rem 2rem; }
+  }
+</style>
 </head>
 <body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="cur-ring"></div>
+
+<!-- Background canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<div class="site-wrap">
+
+  <!-- HEADER -->
   <header>
-    <h1>DjHoppi.club</h1>
+    <a href="#" class="logo">DjHoppi<span>.club</span></a>
     <nav>
-      <a href="#mixcloud">Mixcloud</a>
-      <a href="#soundcloud">Soundcloud</a>
-      <a href="https://www.mixcloud.com/" target="_blank" rel="noopener noreferrer">Mixcloud (external)</a>
-      <a href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer">Soundcloud (external)</a>
+      <a href="#mixes">Mixes</a>
+      <a href="#breweries">Breweries</a>
+      <a href="https://www.mixcloud.com/" target="_blank" rel="noopener" class="nav-cta">
+        ▶ Mixcloud
+      </a>
     </nav>
   </header>
-  <main>
-    <section id="visuals">
-      <canvas id="plantCanvas"></canvas>
-      <canvas id="hopsCanvas"></canvas>
-      <canvas id="bubblesCanvas"></canvas>
-    </section>
-  </main>
-  <footer>
-    <div class="footer-flex">
-      <div id="ads">
-        <h2><a href="breweries.html" class="brew-link">Local Brew Companies</a></h2>
-        <div class="ads-placeholder"><a href="breweries.html" class="ads-link">Advertisement space for local breweries coming soon.</a></div>
-      </div>
-      <p class="copyright">&copy; 2025 DjHoppi.club</p>
-      <div id="hop-disclaimer-trigger" title="Disclaimer">
-        <!-- Simple hop SVG icon -->
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="16" cy="20" rx="10" ry="12" fill="#b2ff59" stroke="#2e7d32" stroke-width="2"/>
-          <path d="M16 8 Q18 14 16 20 Q14 14 16 8 Z" fill="#7cb342"/>
-          <path d="M16 8 Q13 13 16 20 Q19 13 16 8 Z" fill="#558b2f"/>
-        </svg>
-      </div>
-      <div id="hop-disclaimer-modal" class="hidden">
-        <div class="modal-content">
-          <span id="hop-disclaimer-close">&times;</span>
-          <h3>Disclaimer / Aviso Legal</h3>
-          <p><strong>Copyright © 2025 Alfonso González.</strong></p>
-          <p>Por la presente se concede permiso, sin cargo alguno, a cualquier persona que obtenga una copia de este software y de los archivos de documentación asociados (el "Software"), para utilizar el Software sin restricción alguna, incluyendo, sin limitación, los derechos de uso, copia, modificación, fusión, publicación, distribución, sublicencia y/o venta de copias del Software, y para permitir a las personas a quienes se proporcione el Software hacer lo mismo, sujeto a las siguientes condiciones:<br>
-          El aviso de copyright anterior y este aviso de permiso deberán incluirse en todas las copias o porciones sustanciales del Software.<br>
-          EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO SIN LIMITACIÓN GARANTÍAS DE COMERCIALIZACIÓN, IDONEIDAD PARA UN FIN PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE RECLAMACIÓN ALGUNA, DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN ACCIÓN CONTRACTUAL, EXTRACONTRACTUAL O DE OTRO TIPO, DERIVADAS DE, O EN RELACIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS CON EL SOFTWARE.<br>
-          EL SOFTWARE SE ENTREGA "TAL CUAL", COMO UN REGALO SORPRESA. SIN GARANTÍAS. NINGUNA. CERO. Si explota tu ordenador, borra tus fotos de vacaciones, invoca demonios ancestrales o te convierte en rana... ¡pues enhorabuena!  ¡ES TÚ PROBLEMA!</p>
-          <hr>
-          <p><strong>English:</strong><br>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br>
-          The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br>
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br>
-          THE SOFTWARE IS DELIVERED "AS IS", AS A SURPRISE GIFT. NO WARRANTIES. NONE. ZERO. If it blows up your computer, erases your vacation photos, summons ancient demons, or turns you into a frog... well, congratulations! THAT'S YOUR PROBLEM!</p>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">BrewBeats — Since 2024</p>
+    <h1 class="hero-title">
+      BEATS<br>
+      <span class="accent">+</span><br>
+      <span class="dim">BREWS</span>
+    </h1>
+    <p class="hero-sub">Where independent craft breweries meet live DJ sets. Curated soundscapes for micro-brewery culture.</p>
+    <div class="hero-links">
+      <a href="https://www.mixcloud.com/" target="_blank" rel="noopener" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        Listen on Mixcloud
+      </a>
+      <a href="https://soundcloud.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+        Soundcloud
+      </a>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-band">
+    <div class="marquee-track" id="marquee">
+      <span class="marquee-item">House</span>
+      <span class="marquee-item">Techno</span>
+      <span class="marquee-item">Craft Beer</span>
+      <span class="marquee-item">Ambient</span>
+      <span class="marquee-item">Local Brews</span>
+      <span class="marquee-item">Deep Cuts</span>
+      <span class="marquee-item">Live Sessions</span>
+      <span class="marquee-item">Micro-Brewery</span>
+      <span class="marquee-item">House</span>
+      <span class="marquee-item">Techno</span>
+      <span class="marquee-item">Craft Beer</span>
+      <span class="marquee-item">Ambient</span>
+      <span class="marquee-item">Local Brews</span>
+      <span class="marquee-item">Deep Cuts</span>
+      <span class="marquee-item">Live Sessions</span>
+      <span class="marquee-item">Micro-Brewery</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-left reveal">
+      <p class="section-label">About</p>
+      <h2 class="section-title">SOUND<br>MEETS<br>SOIL</h2>
+      <p class="about-body">DjHoppi.club is a community-driven platform bridging the gap between independent breweries and the underground music scene. Every pint deserves a soundtrack.</p>
+      <div class="about-stats">
+        <div class="stat-row">
+          <span class="stat-label">Hours of music</span>
+          <span class="stat-value">120+</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Breweries featured</span>
+          <span class="stat-value">08</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Genres explored</span>
+          <span class="stat-value">14</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Listeners</span>
+          <span class="stat-value">∞</span>
         </div>
       </div>
     </div>
+    <div class="about-right reveal" style="transition-delay: 0.15s;">
+      <div class="feature-card">
+        <span class="feature-icon">🍺</span>
+        <p class="feature-title">Brewery Partnerships</p>
+        <p class="feature-desc">Curated ad space for independent micro-breweries. Connect your craft with the right crowd.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🎛</span>
+        <p class="feature-title">Live DJ Sets</p>
+        <p class="feature-desc">Generative visuals + real mixes. Hosted on Mixcloud and Soundcloud — no algorithms, just vibes.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌿</span>
+        <p class="feature-title">Local Culture</p>
+        <p class="feature-desc">Grown from hops and bass lines. Celebrating the micro-brewery scene one track at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- VISUALIZER -->
+  <section class="spectrum">
+    <p class="section-label">Generative Visuals</p>
+    <canvas id="viz-canvas"></canvas>
+    <p style="font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--cream); opacity:0.2; margin-top:0.5rem;">Hops &amp; waveforms — rendered in real time</p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- MIXES -->
+  <section class="mixes" id="mixes">
+    <div class="mixes-header reveal">
+      <div>
+        <p class="section-label">Recent Sets</p>
+        <h2 class="section-title">THE<br>MIXES</h2>
+      </div>
+      <a href="https://www.mixcloud.com/" target="_blank" rel="noopener" class="btn btn-ghost">All mixes →</a>
+    </div>
+
+    <div class="mix-grid">
+      <a class="mix-card reveal" href="https://www.mixcloud.com/" target="_blank" rel="noopener" style="transition-delay:0.05s">
+        <div class="mix-art" style="background: linear-gradient(135deg, #1a2a0a 0%, #2a4010 100%)">
+          <span class="mix-genre-tag">Deep House</span>
+          <span class="mix-duration">1h 14m</span>
+          <div class="mix-waveform" id="wv1"></div>
+        </div>
+        <div class="mix-info">
+          <p class="mix-title">Fermentation Vol. I</p>
+          <p class="mix-meta">Mixcloud — Mar 2025</p>
+        </div>
+      </a>
+      <a class="mix-card reveal" href="https://www.mixcloud.com/" target="_blank" rel="noopener" style="transition-delay:0.1s">
+        <div class="mix-art" style="background: linear-gradient(135deg, #0d1a0a 0%, #1a3512 100%)">
+          <span class="mix-genre-tag">Techno</span>
+          <span class="mix-duration">52m</span>
+          <div class="mix-waveform" id="wv2"></div>
+        </div>
+        <div class="mix-info">
+          <p class="mix-title">Bitter & Blunt</p>
+          <p class="mix-meta">Soundcloud — Jan 2025</p>
+        </div>
+      </a>
+      <a class="mix-card reveal" href="https://www.mixcloud.com/" target="_blank" rel="noopener" style="transition-delay:0.15s">
+        <div class="mix-art" style="background: linear-gradient(135deg, #2a1a05 0%, #3d2808 100%)">
+          <span class="mix-genre-tag">Ambient</span>
+          <span class="mix-duration">2h 03m</span>
+          <div class="mix-waveform" id="wv3"></div>
+        </div>
+        <div class="mix-info">
+          <p class="mix-title">Taproom Sessions</p>
+          <p class="mix-meta">Mixcloud — Nov 2024</p>
+        </div>
+      </a>
+      <a class="mix-card reveal" href="https://soundcloud.com/" target="_blank" rel="noopener" style="transition-delay:0.2s">
+        <div class="mix-art" style="background: linear-gradient(135deg, #0a1a1a 0%, #0f2a22 100%)">
+          <span class="mix-genre-tag">Dub Techno</span>
+          <span class="mix-duration">1h 38m</span>
+          <div class="mix-waveform" id="wv4"></div>
+        </div>
+        <div class="mix-info">
+          <p class="mix-title">Hop Harvest</p>
+          <p class="mix-meta">Soundcloud — Sep 2024</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- BREWERIES -->
+  <section class="breweries" id="breweries">
+    <div class="brew-intro reveal">
+      <p class="section-label">Partners</p>
+      <h2 class="section-title">LOCAL<br>BREWERIES</h2>
+      <p class="about-body" style="font-size:1.05rem; margin-top:0.5rem;">Independent craft breweries that keep the scene alive. Want your brewery featured? Get in touch.</p>
+    </div>
+
+    <div class="brew-grid">
+      <div class="brew-card reveal" style="transition-delay:0.05s">
+        <div class="brew-logo" style="background:rgba(124,181,24,0.15); color:var(--acid)">HB</div>
+        <p class="brew-name">Hophead Brewing</p>
+        <p class="brew-location">North Quarter, Local</p>
+        <p class="brew-desc">Double IPAs with attitude. Brewed in small batches, served loud.</p>
+      </div>
+      <div class="brew-card reveal" style="transition-delay:0.1s">
+        <div class="brew-logo" style="background:rgba(212,160,23,0.15); color:var(--amber)">MC</div>
+        <p class="brew-name">Malt & Circuit</p>
+        <p class="brew-location">Eastside Industrial</p>
+        <p class="brew-desc">Where electronics meet barrel aging. Rare stouts and saisons.</p>
+      </div>
+      <div class="brew-card reveal" style="transition-delay:0.15s">
+        <div class="brew-logo" style="background:rgba(139,69,19,0.15); color:var(--copper)">GF</div>
+        <p class="brew-name">Grain & Frequency</p>
+        <p class="brew-location">Waterfront District</p>
+        <p class="brew-desc">Sour ales and lagers for people who listen on vinyl.</p>
+      </div>
+      <div class="brew-ad-slot reveal" style="transition-delay:0.2s" onclick="document.getElementById('contact-modal').classList.add('open')">
+        <span class="slot-label">Available</span>
+        <span class="slot-title">Your Brewery Here</span>
+        <span class="slot-label">Tap to enquire</span>
+      </div>
+      <div class="brew-ad-slot reveal" style="transition-delay:0.25s" onclick="document.getElementById('contact-modal').classList.add('open')">
+        <span class="slot-label">Available</span>
+        <span class="slot-title">Your Brewery Here</span>
+        <span class="slot-label">Tap to enquire</span>
+      </div>
+      <div class="brew-ad-slot reveal" style="transition-delay:0.3s" onclick="document.getElementById('contact-modal').classList.add('open')">
+        <span class="slot-label">Available</span>
+        <span class="slot-title">Your Brewery Here</span>
+        <span class="slot-label">Tap to enquire</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo">DjHoppi<span>.club</span></span>
+        <p class="footer-tagline">Where craft beer culture meets curated sound. Community first, always.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Listen</p>
+        <ul class="footer-links">
+          <li><a href="https://www.mixcloud.com/" target="_blank" rel="noopener">Mixcloud</a></li>
+          <li><a href="https://soundcloud.com/" target="_blank" rel="noopener">Soundcloud</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Site</p>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#mixes">Mixes</a></li>
+          <li><a href="#breweries">Breweries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 DjHoppi.club — Alfonso González. Open source under MIT.</p>
+      <button class="footer-legal-btn" onclick="document.getElementById('legal-modal').classList.add('open')">Disclaimer ↗</button>
+    </div>
   </footer>
-  <script src="visuals.js"></script>
-  <script>
-    // Hop disclaimer modal logic
-    const hopTrigger = document.getElementById('hop-disclaimer-trigger');
-    const hopModal = document.getElementById('hop-disclaimer-modal');
-    const hopClose = document.getElementById('hop-disclaimer-close');
-    if (hopTrigger && hopModal && hopClose) {
-      hopTrigger.onclick = () => hopModal.classList.remove('hidden');
-      hopClose.onclick = () => hopModal.classList.add('hidden');
-      window.onclick = (e) => {
-        if (e.target === hopModal) hopModal.classList.add('hidden');
-      };
+
+</div><!-- end site-wrap -->
+
+<!-- Legal Modal -->
+<div class="modal-bg" id="legal-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('legal-modal').classList.remove('open')">✕</button>
+    <h3>Disclaimer</h3>
+    <p><strong style="color:var(--acid);opacity:1">Copyright © 2025 Alfonso González.</strong></p>
+    <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.</p>
+    <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. If it blows up your computer, erases your vacation photos, summons ancient demons, or turns you into a frog... well, congratulations. That's your problem. 🐸</p>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal-bg" id="contact-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('contact-modal').classList.remove('open')">✕</button>
+    <h3>Partner With Us</h3>
+    <p>Interested in having your brewery featured on DjHoppi.club? We'd love to hear from you. Reach out via our social channels on Mixcloud or Soundcloud to get started.</p>
+    <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
+      <a href="https://www.mixcloud.com/" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:0.65rem">Mixcloud ↗</a>
+      <a href="https://soundcloud.com/" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.65rem">Soundcloud ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('cur-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cur.style.transform = `translate(${mx-6}px, ${my-6}px)`;
+  curRing.style.transform = `translate(${rx-18}px, ${ry-18}px)`;
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+reveals.forEach(el => obs.observe(el));
+
+// Background canvas — floating hops and bubbles
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const particles = [];
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * 1200,
+      y: Math.random() * 900,
+      r: Math.random() * 4 + 1,
+      speed: Math.random() * 0.4 + 0.1,
+      drift: (Math.random() - 0.5) * 0.3,
+      type: Math.random() > 0.4 ? 'bubble' : 'hop',
+      alpha: Math.random() * 0.15 + 0.04,
+      phase: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function drawHop(ctx, x, y, r, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = '#7cb518';
+    ctx.lineWidth = 0.8;
+    // simple oval hop cone
+    ctx.beginPath();
+    ctx.ellipse(x, y, r * 0.7, r * 1.2, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    // vein
+    ctx.beginPath();
+    ctx.moveTo(x, y - r * 1.2);
+    ctx.lineTo(x, y + r * 1.2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.008;
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += Math.sin(t + p.phase) * p.drift;
+      if (p.y < -20) { p.y = H + 20; p.x = Math.random() * W; }
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+
+      if (p.type === 'bubble') {
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.strokeStyle = '#b8e04a';
+        ctx.lineWidth = 0.6;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      } else {
+        drawHop(ctx, p.x, p.y, p.r * 3, p.alpha);
+      }
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Visualizer canvas — waveform
+(function() {
+  const canvas = document.getElementById('viz-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    W = canvas.width = rect.width * window.devicePixelRatio;
+    H = canvas.height = rect.height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  setTimeout(resize, 100);
+  window.addEventListener('resize', resize);
+
+  const waves = [
+    { freq: 0.012, amp: 0.32, speed: 0.021, color: '#b8e04a', alpha: 0.7 },
+    { freq: 0.018, amp: 0.2,  speed: 0.014, color: '#7cb518', alpha: 0.4 },
+    { freq: 0.008, amp: 0.45, speed: 0.009, color: '#3d5c1a', alpha: 0.3 },
+  ];
+  let t = 0;
+
+  function draw() {
+    const cw = canvas.width / window.devicePixelRatio;
+    const ch = canvas.height / window.devicePixelRatio;
+    ctx.clearRect(0, 0, cw, ch);
+    t += 1;
+
+    waves.forEach(w => {
+      ctx.beginPath();
+      ctx.moveTo(0, ch / 2);
+      for (let x = 0; x <= cw; x += 2) {
+        const y = ch / 2 + Math.sin(x * w.freq + t * w.speed) * ch * w.amp * 0.5
+                        + Math.sin(x * w.freq * 1.7 + t * w.speed * 0.8) * ch * w.amp * 0.2;
+        ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = w.color;
+      ctx.globalAlpha = w.alpha;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+
+    // Bubble dots along midline
+    ctx.fillStyle = '#b8e04a';
+    for (let i = 0; i < 8; i++) {
+      const bx = ((t * 0.7 + i * 140) % (cw + 40)) - 20;
+      const by = canvas.height / window.devicePixelRatio / 2 + Math.sin(bx * 0.012 + t * 0.021) * canvas.height / window.devicePixelRatio * 0.16;
+      ctx.globalAlpha = 0.6;
+      ctx.beginPath();
+      ctx.arc(bx, by, 2.5, 0, Math.PI * 2);
+      ctx.fill();
     }
-  </script>
+    ctx.globalAlpha = 1;
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Waveform bars in mix cards
+['wv1','wv2','wv3','wv4'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const heights = [20,35,55,40,65,45,30,50,38,60,28,45,55,35,42,58,32,48];
+  heights.forEach((h, i) => {
+    const bar = document.createElement('span');
+    bar.style.height = h + 'px';
+    bar.style.animationDelay = (i * 0.09) + 's';
+    bar.style.animationDuration = (1.2 + Math.random() * 0.8) + 's';
+    el.appendChild(bar);
+  });
+});
+</script>
 </body>
 </html>
