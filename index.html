@@ -955,7 +955,7 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 reveals.forEach(el => obs.observe(el));
 
-// Background canvas — floating hops and bubbles
+// Background canvas — beer bubbles rising from bottom + hop silhouettes
 (function() {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -964,61 +964,140 @@ reveals.forEach(el => obs.observe(el));
   resize();
   window.addEventListener('resize', resize);
 
-  const particles = [];
-  for (let i = 0; i < 60; i++) {
-    particles.push({
-      x: Math.random() * 1200,
-      y: Math.random() * 900,
-      r: Math.random() * 4 + 1,
-      speed: Math.random() * 0.4 + 0.1,
-      drift: (Math.random() - 0.5) * 0.3,
-      type: Math.random() > 0.4 ? 'bubble' : 'hop',
-      alpha: Math.random() * 0.15 + 0.04,
+  function spawnBubble() {
+    const r = Math.random() * 12 + 4;
+    return {
+      type: 'bubble',
+      x: Math.random() * W,
+      y: H + r + Math.random() * H * 0.3,
+      r,
+      speed: r * 0.28 + Math.random() * 0.5,
+      swingAmp: r * 0.7 + Math.random() * 2.5,
+      swingFreq: 0.012 + Math.random() * 0.018,
       phase: Math.random() * Math.PI * 2,
-    });
+      anchorX: Math.random() * W,
+      anchorDrift: (Math.random() - 0.5) * 0.06,
+      alpha: 0.28 + Math.random() * 0.38,
+    };
   }
 
-  function drawHop(ctx, x, y, r, alpha) {
+  function spawnHop() {
+    return {
+      type: 'hop',
+      x: Math.random() * W,
+      y: H + 40,
+      r: Math.random() * 8 + 6,
+      speed: Math.random() * 0.18 + 0.06,
+      swingAmp: Math.random() * 8 + 4,
+      swingFreq: 0.006 + Math.random() * 0.008,
+      phase: Math.random() * Math.PI * 2,
+      anchorX: Math.random() * W,
+      anchorDrift: (Math.random() - 0.5) * 0.02,
+      alpha: 0.06 + Math.random() * 0.09,
+    };
+  }
+
+  const particles = [];
+  // seed particles scattered throughout the screen so it isn't empty on load
+  for (let i = 0; i < 120; i++) {
+    const b = spawnBubble();
+    b.y = Math.random() * H;   // already on screen
+    particles.push(b);
+  }
+  for (let i = 0; i < 18; i++) {
+    const h = spawnHop();
+    h.y = Math.random() * H;
+    particles.push(h);
+  }
+
+  function drawBubble(p, t) {
+    const swing = Math.sin(t * p.swingFreq + p.phase) * p.swingAmp;
+    const drawX = p.anchorX + swing;
+    const drawY = p.y;
+
     ctx.save();
-    ctx.globalAlpha = alpha;
+    ctx.globalAlpha = p.alpha;
+
+    // outer ring
+    ctx.strokeStyle = '#b8e04a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // small specular highlight (top-left glint)
+    ctx.fillStyle = 'rgba(232,245,200,0.75)';
+    ctx.beginPath();
+    ctx.arc(drawX - p.r * 0.3, drawY - p.r * 0.32, p.r * 0.32, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+    return drawX; // return so we can update anchorX if needed
+  }
+
+  function drawHop(p, t) {
+    const swing = Math.sin(t * p.swingFreq + p.phase) * p.swingAmp;
+    const dx = p.anchorX + swing;
+    const dy = p.y;
+
+    ctx.save();
+    ctx.globalAlpha = p.alpha;
     ctx.strokeStyle = '#7cb518';
-    ctx.lineWidth = 0.8;
-    // simple oval hop cone
+    ctx.lineWidth = 0.9;
+
+    // oval hop cone body
     ctx.beginPath();
-    ctx.ellipse(x, y, r * 0.7, r * 1.2, 0, 0, Math.PI * 2);
+    ctx.ellipse(dx, dy, p.r * 0.55, p.r, 0, 0, Math.PI * 2);
     ctx.stroke();
-    // vein
+
+    // centre vein
     ctx.beginPath();
-    ctx.moveTo(x, y - r * 1.2);
-    ctx.lineTo(x, y + r * 1.2);
+    ctx.moveTo(dx, dy - p.r);
+    ctx.lineTo(dx, dy + p.r);
     ctx.stroke();
+
+    // two lateral veins
+    ctx.globalAlpha = p.alpha * 0.5;
+    ctx.beginPath();
+    ctx.moveTo(dx - p.r * 0.35, dy - p.r * 0.4);
+    ctx.quadraticCurveTo(dx, dy - p.r * 0.1, dx + p.r * 0.35, dy + p.r * 0.4);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(dx + p.r * 0.35, dy - p.r * 0.4);
+    ctx.quadraticCurveTo(dx, dy - p.r * 0.1, dx - p.r * 0.35, dy + p.r * 0.4);
+    ctx.stroke();
+
     ctx.restore();
   }
 
   let t = 0;
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    t += 0.008;
-    particles.forEach(p => {
+    t += 1;
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      // rise
       p.y -= p.speed;
-      p.x += Math.sin(t + p.phase) * p.drift;
-      if (p.y < -20) { p.y = H + 20; p.x = Math.random() * W; }
-      if (p.x < -20) p.x = W + 20;
-      if (p.x > W + 20) p.x = -20;
+      // slow lateral anchor drift (convection)
+      p.anchorX += p.anchorDrift;
+      if (p.anchorX < -50) p.anchorX = W + 50;
+      if (p.anchorX > W + 50) p.anchorX = -50;
+
+      // recycle when bubble exits top
+      if (p.y < -p.r * 2) {
+        particles[i] = p.type === 'bubble' ? spawnBubble() : spawnHop();
+        continue;
+      }
 
       if (p.type === 'bubble') {
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.strokeStyle = '#b8e04a';
-        ctx.lineWidth = 0.6;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.restore();
+        drawBubble(p, t);
       } else {
-        drawHop(ctx, p.x, p.y, p.r * 3, p.alpha);
+        drawHop(p, t);
       }
-    });
+    }
+
     requestAnimationFrame(draw);
   }
   draw();
