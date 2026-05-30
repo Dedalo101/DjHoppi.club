@@ -636,6 +636,186 @@
   }
   .reveal.visible { opacity: 1; transform: none; }
 
+  /* ── FESTIVALS ── */
+  .festivals {
+    padding: 6rem 2.5rem;
+    background: linear-gradient(to bottom, transparent, rgba(10,15,5,0.6), transparent);
+  }
+  .festivals-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .fest-filters {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .fest-filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid rgba(184,224,74,0.2);
+    color: var(--cream);
+    opacity: 0.55;
+    padding: 0.35rem 0.85rem;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .fest-filter-btn:hover,
+  .fest-filter-btn.active {
+    border-color: var(--acid);
+    color: var(--acid);
+    opacity: 1;
+    background: rgba(184,224,74,0.06);
+  }
+
+  /* Month timeline */
+  .fest-timeline {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .fest-month-block {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 2rem;
+    border-top: 1px solid rgba(184,224,74,0.1);
+  }
+  .fest-month-block:last-child { border-bottom: 1px solid rgba(184,224,74,0.1); }
+
+  .fest-month-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: 0.04em;
+    color: var(--acid);
+    opacity: 0.18;
+    padding: 1.5rem 0;
+    line-height: 1;
+    position: sticky;
+    top: 80px;
+    align-self: start;
+  }
+  .fest-month-events {
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  /* Individual festival row */
+  .fest-row {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(184,224,74,0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+    border-radius: 1px;
+  }
+  .fest-row:last-child { border-bottom: none; }
+  .fest-row:hover { background: rgba(184,224,74,0.04); }
+  .fest-row:hover .fest-name { color: var(--acid); }
+
+  .fest-date-col {
+    text-align: right;
+  }
+  .fest-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    color: var(--cream);
+    line-height: 1;
+    opacity: 0.5;
+  }
+  .fest-month-short {
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream); opacity: 0.3;
+  }
+
+  .fest-info { min-width: 0; }
+  .fest-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    transition: color 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+    margin-bottom: 0.2rem;
+  }
+  .fest-meta-row {
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  }
+  .fest-location {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream); opacity: 0.38;
+  }
+  .fest-genre-pill {
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .pill-techno  { border-color: rgba(100,180,255,0.3); color: rgba(100,180,255,0.7); }
+  .pill-house   { border-color: rgba(184,224,74,0.35); color: rgba(184,224,74,0.7); }
+  .pill-edm     { border-color: rgba(255,160,50,0.3);  color: rgba(255,160,50,0.7); }
+  .pill-multi   { border-color: rgba(200,150,255,0.3); color: rgba(200,150,255,0.7); }
+  .pill-ambient { border-color: rgba(100,220,200,0.3); color: rgba(100,220,200,0.7); }
+
+  .fest-right {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem;
+    min-width: 110px;
+  }
+  .fest-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    color: var(--acid);
+    line-height: 1;
+  }
+  .fest-price-note {
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream); opacity: 0.3;
+  }
+  .fest-ticket-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid rgba(184,224,74,0.25);
+    color: var(--acid);
+    padding: 0.3rem 0.7rem;
+    border-radius: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .fest-ticket-btn:hover {
+    background: rgba(184,224,74,0.1);
+    border-color: var(--acid);
+  }
+
+  .fest-notice {
+    margin-top: 2.5rem;
+    font-size: 0.62rem;
+    line-height: 1.7;
+    color: var(--cream); opacity: 0.25;
+    letter-spacing: 0.04em;
+    border-top: 1px solid rgba(184,224,74,0.08);
+    padding-top: 1.25rem;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     header { padding: 1rem 1.25rem; }
@@ -648,6 +828,11 @@
     .mixes { padding: 4rem 1.25rem; }
     .mixes-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .breweries { padding: 4rem 1.25rem; }
+    .festivals { padding: 4rem 1.25rem; }
+    .fest-month-block { grid-template-columns: 50px 1fr; gap: 0 1rem; }
+    .fest-month-label { font-size: 1.8rem; }
+    .fest-row { grid-template-columns: 60px 1fr; }
+    .fest-right { display: none; }
     .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
     footer { padding: 3rem 1.25rem 2rem; }
   }
@@ -669,6 +854,7 @@
     <a href="#" class="logo">DjHoppi<span>.club</span></a>
     <nav>
       <a href="#mixes">Mixes</a>
+      <a href="#festivals">Festivals</a>
       <a href="#breweries">Breweries</a>
       <a href="https://www.mixcloud.com/" target="_blank" rel="noopener" class="nav-cta">
         ▶ Mixcloud
@@ -878,6 +1064,288 @@
     </div>
   </section>
 
+  <!-- FESTIVALS -->
+  <section class="festivals" id="festivals">
+    <div class="festivals-header reveal">
+      <div>
+        <p class="section-label">2026 Calendar</p>
+        <h2 class="section-title">EU FESTIVAL<br>GUIDE</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1rem">
+        <div class="fest-filters" id="fest-filters">
+          <button class="fest-filter-btn active" data-filter="all">All</button>
+          <button class="fest-filter-btn" data-filter="techno">Techno</button>
+          <button class="fest-filter-btn" data-filter="house">House</button>
+          <button class="fest-filter-btn" data-filter="edm">EDM</button>
+          <button class="fest-filter-btn" data-filter="multi">Multi-genre</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fest-timeline" id="fest-timeline">
+
+      <!-- APRIL -->
+      <div class="fest-month-block" data-month="apr">
+        <div class="fest-month-label">APR</div>
+        <div class="fest-month-events">
+          <a class="fest-row reveal" href="https://dgtlfestival.com/" target="_blank" rel="noopener" data-genre="techno">
+            <div class="fest-date-col"><div class="fest-day">3–5</div><div class="fest-month-short">Apr</div></div>
+            <div class="fest-info">
+              <div class="fest-name">DGTL Amsterdam</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇳🇱 NDSM Docklands, Amsterdam</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+                <span class="fest-genre-pill pill-house">House</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€90</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://dgtlfestival.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://durofestival.com/" target="_blank" rel="noopener" data-genre="techno" style="transition-delay:0.05s">
+            <div class="fest-date-col"><div class="fest-day">3–4</div><div class="fest-month-short">Apr</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Duro Festival</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇪🇸 Montmelo, Barcelona</span>
+                <span class="fest-genre-pill pill-techno">Hard Techno</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">€35–€55</div>
+              <div class="fest-price-note">1-day / 2-day</div>
+              <a class="fest-ticket-btn" href="https://durofestival.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://snowbombing.com/" target="_blank" rel="noopener" data-genre="multi" style="transition-delay:0.1s">
+            <div class="fest-date-col"><div class="fest-day">6–11</div><div class="fest-month-short">Apr</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Snowbombing</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇦🇹 Mayrhofen, Austria</span>
+                <span class="fest-genre-pill pill-multi">Multi-genre</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€350</div>
+              <div class="fest-price-note">Festival pass</div>
+              <a class="fest-ticket-btn" href="https://snowbombing.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- JUNE -->
+      <div class="fest-month-block" data-month="jun">
+        <div class="fest-month-label">JUN</div>
+        <div class="fest-month-events">
+          <a class="fest-row reveal" href="https://sonar.es/en" target="_blank" rel="noopener" data-genre="techno">
+            <div class="fest-date-col"><div class="fest-day">18–20</div><div class="fest-month-short">Jun</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Sónar</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇪🇸 Barcelona, Spain</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+                <span class="fest-genre-pill pill-ambient">Experimental</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€75</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://sonar.es/en" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- JULY -->
+      <div class="fest-month-block" data-month="jul">
+        <div class="fest-month-label">JUL</div>
+        <div class="fest-month-events">
+          <a class="fest-row reveal" href="https://www.kappafuturfestival.it/" target="_blank" rel="noopener" data-genre="techno">
+            <div class="fest-date-col"><div class="fest-day">3–5</div><div class="fest-month-short">Jul</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Kappa FuturFestival</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇮🇹 Parco Dora, Turin</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+                <span class="fest-genre-pill pill-house">House</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€80</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://www.kappafuturfestival.it/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://ultraeurope.com/" target="_blank" rel="noopener" data-genre="edm" style="transition-delay:0.05s">
+            <div class="fest-date-col"><div class="fest-day">10–12</div><div class="fest-month-short">Jul</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Ultra Europe</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇭🇷 Split, Croatia</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+                <span class="fest-genre-pill pill-house">House</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€150</div>
+              <div class="fest-price-note">3-day pass</div>
+              <a class="fest-ticket-btn" href="https://ultraeurope.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://www.awakenings.com/" target="_blank" rel="noopener" data-genre="techno" style="transition-delay:0.1s">
+            <div class="fest-date-col"><div class="fest-day">10–12</div><div class="fest-month-short">Jul</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Awakenings Festival</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇳🇱 Hilvarenbeek, Netherlands</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€90 / €240</div>
+              <div class="fest-price-note">Day / Weekend</div>
+              <a class="fest-ticket-btn" href="https://www.awakenings.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://www.tomorrowland.com/" target="_blank" rel="noopener" data-genre="edm" style="transition-delay:0.15s">
+            <div class="fest-date-col"><div class="fest-day">17–26</div><div class="fest-month-short">Jul</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Tomorrowland</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇧🇪 Boom, Belgium · 2 weekends</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">€138–€327+</div>
+              <div class="fest-price-note">Day / Weekend</div>
+              <a class="fest-ticket-btn" href="https://www.tomorrowland.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://www.parookaville.com/en/" target="_blank" rel="noopener" data-genre="edm" style="transition-delay:0.2s">
+            <div class="fest-date-col"><div class="fest-day">17–19</div><div class="fest-month-short">Jul</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Parookaville</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇩🇪 Weeze Airport, Germany</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+                <span class="fest-genre-pill pill-techno">Hardstyle</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€110</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://www.parookaville.com/en/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- AUGUST -->
+      <div class="fest-month-block" data-month="aug">
+        <div class="fest-month-label">AUG</div>
+        <div class="fest-month-events">
+          <a class="fest-row reveal" href="https://untold.com/" target="_blank" rel="noopener" data-genre="edm">
+            <div class="fest-date-col"><div class="fest-day">6–9</div><div class="fest-month-short">Aug</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Untold</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇷🇴 Cluj-Napoca, Romania</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+                <span class="fest-genre-pill pill-multi">Multi-genre</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€70</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://untold.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://szigetfestival.com/" target="_blank" rel="noopener" data-genre="multi" style="transition-delay:0.05s">
+            <div class="fest-date-col"><div class="fest-day">11–15</div><div class="fest-month-short">Aug</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Sziget Festival</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇭🇺 Óbuda Island, Budapest</span>
+                <span class="fest-genre-pill pill-multi">Multi-genre</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">€77/mo</div>
+              <div class="fest-price-note">5-day pass (instalment)</div>
+              <a class="fest-ticket-btn" href="https://szigetfestival.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://www.dekmantelfestival.com/" target="_blank" rel="noopener" data-genre="techno" style="transition-delay:0.1s">
+            <div class="fest-date-col"><div class="fest-day">29–2</div><div class="fest-month-short">Jul–Aug</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Dekmantel</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇳🇱 Amsterdamse Bos, Amsterdam</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+                <span class="fest-genre-pill pill-house">House</span>
+                <span class="fest-genre-pill pill-ambient">Experimental</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€210</div>
+              <div class="fest-price-note">Multi-day pass</div>
+              <a class="fest-ticket-btn" href="https://www.dekmantelfestival.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+          <a class="fest-row reveal" href="https://creamfields.com/" target="_blank" rel="noopener" data-genre="edm" style="transition-delay:0.15s">
+            <div class="fest-date-col"><div class="fest-day">27–30</div><div class="fest-month-short">Aug</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Creamfields</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇬🇧 Cheshire, UK</span>
+                <span class="fest-genre-pill pill-edm">EDM</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€180</div>
+              <div class="fest-price-note">Weekend pass</div>
+              <a class="fest-ticket-btn" href="https://creamfields.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SEPTEMBER -->
+      <div class="fest-month-block" data-month="sep">
+        <div class="fest-month-label">SEP</div>
+        <div class="fest-month-events">
+          <a class="fest-row reveal" href="https://www.timewarp.de/" target="_blank" rel="noopener" data-genre="techno">
+            <div class="fest-date-col"><div class="fest-day">4–5</div><div class="fest-month-short">Sep</div></div>
+            <div class="fest-info">
+              <div class="fest-name">Draaimolen Festival</div>
+              <div class="fest-meta-row">
+                <span class="fest-location">🇳🇱 Tilburg, Netherlands</span>
+                <span class="fest-genre-pill pill-techno">Techno</span>
+                <span class="fest-genre-pill pill-house">House</span>
+              </div>
+            </div>
+            <div class="fest-right">
+              <div class="fest-price">~€75</div>
+              <div class="fest-price-note">Day pass</div>
+              <a class="fest-ticket-btn" href="https://www.draaimolenfestival.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Tickets ↗</a>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="fest-notice">Prices shown are approximate face-value starting prices in EUR. Ticket costs vary by tier, phase, and resale. Always verify dates and availability on official festival websites before booking. Lineup and event details are based on confirmed announcements as of May 2026 — some details may change.</p>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-top">
@@ -897,6 +1365,7 @@
         <ul class="footer-links">
           <li><a href="#about">About</a></li>
           <li><a href="#mixes">Mixes</a></li>
+          <li><a href="#festivals">Festivals</a></li>
           <li><a href="#breweries">Breweries</a></li>
         </ul>
       </div>
@@ -1162,7 +1631,26 @@ reveals.forEach(el => obs.observe(el));
   draw();
 })();
 
-// Waveform bars in mix cards
+// Festival genre filter
+document.getElementById('fest-filters').addEventListener('click', e => {
+  const btn = e.target.closest('.fest-filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.fest-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filter = btn.dataset.filter;
+  document.querySelectorAll('.fest-row').forEach(row => {
+    const genre = row.dataset.genre;
+    const show = filter === 'all' || genre === filter;
+    row.style.display = show ? '' : 'none';
+  });
+  // hide month blocks that are fully empty after filtering
+  document.querySelectorAll('.fest-month-block').forEach(block => {
+    const visible = [...block.querySelectorAll('.fest-row')].some(r => r.style.display !== 'none');
+    block.style.display = visible ? '' : 'none';
+  });
+});
+
+
 ['wv1','wv2','wv3','wv4'].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
